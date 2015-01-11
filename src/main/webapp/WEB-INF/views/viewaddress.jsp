@@ -86,9 +86,7 @@
 					<tr>
 						<th colspan=3>第一行：${addr.line1 }</th>
 					</tr>
-					<tr>
-						<th colspan=3>第二行：${addr.line2 }</h>
-					</tr>
+					
 					<tr>
 						<td>省：${addr.province }</td>
 						<td>城市：${addr.city }</td>

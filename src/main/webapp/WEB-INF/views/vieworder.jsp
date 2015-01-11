@@ -92,9 +92,7 @@
 					<tr>
 						<th colspan=3>第一行：${order.address.line1 }</th>
 					</tr>
-					<tr>
-						<th colspan=3>第二行：${order.address.line2 }</h>
-					</tr>
+					
 					<tr>
 						<td>省：${order.address.province }</td>
 						<td>城市：${order.address.city }</td>

@@ -92,10 +92,7 @@
 								<label for="line1">第一行</label> <input id="line1" name="line1"
 									type="text" class="form-control" />
 							</p>
-							<p>
-								<label for="line2">第二行</label> <input id="line2" name="line2"
-									type="text" class="form-control" />
-							</p>
+							
 							<p>
 								<label for="city">城市</label> <input id="city" name="city"
 									type="text" class="form-control" />
