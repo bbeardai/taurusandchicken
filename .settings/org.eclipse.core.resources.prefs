@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/taurusandchicken/web/controller/HomeController.java=UTF-8
+encoding//src/main/java/com/taurusandchicken/web/dao/AddressDAO.java=UTF-8
+encoding//src/main/java/com/taurusandchicken/web/dao/IdphotoDAO.java=UTF-8
+encoding//src/main/java/com/taurusandchicken/web/dao/OrderDAO.java=UTF-8
+encoding//src/main/java/com/taurusandchicken/web/dao/UserDAO.java=UTF-8
+encoding//src/main/java/com/taurusandchicken/web/module/User.java=UTF-8
+encoding//src/main/java/com/taurusandchicken/web/utility/CamparePic.java=UTF-8
+encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/loginsignin.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/template/navbarHeader.jsp=UTF-8
+encoding/<project>=UTF-8

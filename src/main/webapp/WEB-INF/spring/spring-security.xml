@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+
+	<!-- This is where we configure Spring-Security -->
+	<security:http auto-config="true" use-expressions="true">
+
+		<security:intercept-url pattern="/idphoto" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/uploadid" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/address" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/viewaddress" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/addorder" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/addressupdate" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/vieworder" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/neworder" access="hasRole('ROLE_SHOPER')" />
+		<security:intercept-url pattern="/viewallorder" access="hasRole('ROLE_SHIPER')" />
+		<security:intercept-url pattern="/shiped" access="hasRole('ROLE_SHIPER')" />
+		<security:intercept-url pattern="/loginfailure" access="permitAll" />
+		<security:intercept-url pattern="/reg" access="permitAll" />
+		<security:intercept-url pattern="/loginsignin" access="permitAll" />
+		
+		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/home" access="permitAll" />
+		<security:intercept-url pattern="/resources/**"
+			access="permitAll" />
+		<!-- <security:intercept-url pattern="/myweb/home" access="permitAll" /> -->
+		<!-- <security:intercept-url pattern="/**" access="permitAll" /> -->
+		<security:intercept-url pattern="/**"
+			access="hasRole('ROLE_USERS')" />
+
+		<security:access-denied-handler
+			error-page="/403" />
+		<security:form-login login-page="/loginsignin"
+			authentication-failure-url="/loginfailure" default-target-url="/"
+			username-parameter="username" password-parameter="password"
+			always-use-default-target="true" />
+
+		<security:logout invalidate-session="true"
+			logout-success-url="/" />
+
+	</security:http>
+
+
+
+	<!-- For authentication: user-search-filter: the attribute name that contains 
+		the user name user-search-base: the base path where to find user information 
+		For authorization: group-search-filter: the attribute name that contains 
+		the full dn of a user group-search-base: the base path where to find role 
+		information group-role-attribute: the attribute name that contains the role 
+		type role-prefix: the prefix to be added when retrieving role values For 
+		server access: manager-dn: the full dn of the person that has access to an 
+		LDAP server manager-password: the password of the person that has access 
+		to an LDAP server -->
+
+
+	<security:authentication-manager>
+		<security:authentication-provider
+			user-service-ref="myUserDetailsService">
+ <security:password-encoder hash="plaintext"/>  
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+
+
+
+
+</beans>
