@@ -153,7 +153,7 @@
 			var provinceValue = document.getElementById("province").value;
 			
 			//2 解析xml文件
-			var docXml = parseXML("cities.xml");
+			var docXml = parseXML("resources/cities.xml");
 			
 			//3 遍历xml文件中的省份
 			var provinceXmlElements = docXml.getElementsByTagName("province");

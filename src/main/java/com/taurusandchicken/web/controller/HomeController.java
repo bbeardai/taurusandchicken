@@ -202,7 +202,7 @@ public class HomeController {
 		String username = auth.getName();
 		User user = userDAO.findByUserName(username);
 		Idphoto idphoto = idphotoDAO.findByIdphotoid(idphotoid);
-		Address address = new Address(line1,line2,province,city,zip,phone,memo,user,idphoto);
+		Address address = new Address(line1,province,city,zip,phone,memo,user,idphoto);
 		addressDAO.addAddress(address);
 		
 		return "redirect:viewaddress";
