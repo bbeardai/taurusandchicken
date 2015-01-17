@@ -1,0 +1,64 @@
+/**
+ * version        $2015 Michael $
+ * copyright      Copyright (c) 2014
+ * license        1.0
+ */
+ 
+/*****************************public 样式重置***************************************/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,  abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,  article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {margin: 0; padding: 0; border: 0; font-size: 100%;/* font: inherit; -webkit-box-sizing: border-box;-moz-box-sizing: border-box; box-sizing: border-box;*/ vertical-align: baseline; outline: none;}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display:block;}
+address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:normal;}
+canvas,video{display:inline-block;*display:inline;*zoom:1}
+html { height: 100%; }
+body { font-size: 12px;/* line-height: 1;*/ font-family: Arial, Tahoma, sans-serif; overflow-x:hidden; }
+ol,ul,li{list-style:none;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+input,textarea,select,button{outline:none;resize:none;}
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+strong { font-weight: bold; }
+table { /*border-collapse: collapse; border-spacing: 0; */}
+p { font-size: 12px; line-height:20px; color: #000; }
+a img,img{border:0;}
+a{text-decoration:none; color:#000}
+a:hover{color:#F00;}
+.clear{ clear:both; margin:0; padding:0; height:0;display: block;overflow: hidden;visibility: hidden;width: 0;}
+
+/*png图片透明样式例子*/
+.pngBg {width:200px;height:100px; background:url(../logo.png) no-repeat;_background:none; _filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/folder/yourimage.png',sizingMethod='crop');}
+/*跨浏览器的CSS透明度 */
+.transparent {  /* Modern Browsers */ opacity: 0.7;  /* IE 8 */ -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";  /* IE 5-7 */ filter: alpha(opacity=70);  /* Netscape */ -moz-opacity: 0.7;  /* Safari 1 */ -khtml-opacity: 0.7;  }  
+.red{ color:#F00;}
+.black{ color:#000;}
+.white{ color:#FFF;}
+.left{ float:left;}
+.right{ float:right;}
+
+.line{ border-bottom:/*#0c9095*/ #1FCB58 2px solid; height:0; width:1000px; margin:0 auto; padding:10px 0 0 0;}
+.ten{ height:10px; margin:0; padding:0; width:100%;}
+.twenty{ height:20px; margin:0; padding:0; width:100%; }
+
+header,section,footer{ margin:0 auto; padding:0; width:100%;}
+
+
+/*页头和页脚公共样式*/
+body{ background:#fef6ec;}
+header{ width:100%; height:65px; border-bottom:#a35701 3px solid; background:#fb8f13;margin:0 auto; padding:0;}
+.header_logo{ float:left; width:201px; height:65px; margin:0; padding:0;}
+.header_top{ width:970px; margin:0 auto; padding:0;}
+nav{ width:765px; float:right; margin:0; padding:0; height:27px; line-height:27px;}
+nav a{ width:114px; height:27px; display:block; color:#FFF; float:left; text-align:center; font-size:14px; font-weight:bold; margin:0 10px 0 0;}
+nav a:hover,nav a.current{ background:url(images/nav_bg.png) center no-repeat; color:#FFF;}
+.hreder_member{ float:right; height:38px; line-height:38px; margin:0; padding:0;}
+.hreder_member a{ margin:0 10px 0 0; color:#FFF;}
+
+
+.banner{ width:100px; width:100%; text-align:center; height:269px;}
+.banner a{ display:block; width:100%; height:100%;}
+
+
+.footer{width:100%; height:70px;  border-top:#a35701 3px solid;background:#fb8f13;margin:0 auto; padding:0; text-align:center; color:#FFF;  font-size:12px; padding-top:40px;}
+.footer ul{ width:970px;  margin:0 auto; padding:0px 800px; }
+.footer li{ color:#FFF;  font-size:12px; list-style:none; float:left; padding-left:10px;}
+.footer li a{ color:#FFF;  }
