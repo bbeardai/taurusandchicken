@@ -104,7 +104,7 @@ public class HomeController {
 		System.out.println(username);
 		System.out.println(username);
 		System.out.println("处理中!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		return "redirect:home";
+		return "redirect:/";
 	}
 	@RequestMapping(value = "/loginfailure", method = RequestMethod.GET)
 	public String loginfailure(Locale locale, Model model

@@ -5,29 +5,30 @@
 <%@ page session="true"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
-
 <html>
 <head>
-<meta name="viewpoint" content="width = device-width, initial-scale = 1.0">
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>无标题文档</title>
-<!--[if lt IE 9]><script src="js/html5.js" type="text/javascript"></script><![endif]-->
-<link rel="stylesheet" type="text/css" href="resources/css/public.css"/>
-<link rel="stylesheet" type="text/css" href="resources/css/Home page.css"/>
+<meta name="viewpoint"
+	content="width = device-width, initial-scale = 1.0">
+	
 <link rel="stylesheet"  type="text/css" href="resources/css/bootstrap.min.css"/>
 <link rel="stylesheet"  type="text/css" href="resources/css/styles.css"/>
 <link type="text/css" rel="stylesheet" href="resources/css/annotorious.css" />
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>首页</title>
+<!--[if lt IE 9]><script src="js/html5.js" type="text/javascript"></script><![endif]-->
+<link rel="stylesheet" type="text/css" href="resources/css/public.css"/>
+<link rel="stylesheet" type="text/css" href="resources/css/Home page.css"/>
 </head>
 <body>
+
 <!------------header start------------->
 <header>
 	<div class="header_top">
     	<div class="header_logo"><img  src="resources/images/logo.png" alt=""/></div>
         <div class="hreder_member">
-        <ul class="nav navbar-nav navbar-right">
+        	<ul class="nav navbar-nav navbar-right">
 				
 				<c:choose>
 					<c:when test="${username== 'anonymousUser' }">
@@ -71,8 +72,7 @@
 				</sec:authorize>
 
 				
-			</ul>
-</div>
+			</ul></div>
     	<nav>
         	<a class="current" href="/" target="_blank">首页</a>
             <a href="/" target="_blank">服务中心</a>
