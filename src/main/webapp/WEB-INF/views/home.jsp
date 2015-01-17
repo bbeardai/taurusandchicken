@@ -12,7 +12,6 @@
 	
 <link rel="stylesheet"  type="text/css" href="resources/css/bootstrap.min.css"/>
 <link rel="stylesheet"  type="text/css" href="resources/css/styles.css"/>
-<link type="text/css" rel="stylesheet" href="resources/css/annotorious.css" />
 <meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
