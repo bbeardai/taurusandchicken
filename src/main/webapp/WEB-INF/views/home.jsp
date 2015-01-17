@@ -179,15 +179,13 @@
       </ul>
     </div>
    <!------------页脚-------------> 
-   <div class="footer">
-   		<div class="footer_main">
+   <div class="foot">
    		<ul>
-        	<li><a href="#" target="_blank">帮助及问答</a></li>
-            <li><a href="#" target="_blank">资源下载</a></li>
-            <li> <a href="#" target="_blank">加盟合作</a></li>
-            <li> <a href="#" target="_blank">服务协议</a></li>
-        </ul>
-        </div>
+   			<li><a href="#" target="_blanck">帮助及问答</a></li>
+   			<li><a href="#" target="_blanck">资源下载</a></li>
+   			<li><a href="#" target="_blanck">加盟合作</a></li>
+   			<li><a href="#" target="_blanck">服务协议</a></li>
+   		</ul>
    </div>
 </section>
 <!------------section end------------->
