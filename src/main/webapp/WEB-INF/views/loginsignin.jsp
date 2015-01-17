@@ -63,12 +63,12 @@
 							</p>
 							<p>
 								<label for="password">密码</label> <input id="sign_up_password"
-									name="sign_up_password" type="text" class="form-control" />
+									name="sign_up_password" type="password" class="form-control" />
 							</p>
 							<p id="check"></p>
 							<p>
 								<label for="repassword">密码确认</label> <input id="sign_up_repassword"
-									name="sign_up_repassword" type="text" class="form-control" />
+									name="sign_up_repassword" type="password" class="form-control" />
 							</p>
 							<input type="submit" value="注册" class="btn btn-danger" />
 						</form>
