@@ -181,12 +181,14 @@
     </div>
    <!------------页脚-------------> 
    <div class="footer">
+   		<div class="footer_main">
    		<ul>
         	<li><a href="#" target="_blank">帮助及问答</a></li>
             <li><a href="#" target="_blank">资源下载</a></li>
             <li> <a href="#" target="_blank">加盟合作</a></li>
             <li> <a href="#" target="_blank">服务协议</a></li>
         </ul>
+        </div>
    </div>
 </section>
 <!------------section end------------->
