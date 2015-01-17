@@ -32,11 +32,11 @@
 						<form name='loginForm' id="sign_in_form"
 							action="<c:url value='/j_spring_security_check' />" method='POST'>
 							<p>
-								<label for="username">E-mail</label> <input id="sign_in_username"
+								<label for="sign_in_username">E-mail</label> <input id="sign_in_username"
 									name="sign_in_username" type="text" class="form-control" />
 							</p>
 							<p>
-								<label for="password">密码</label> <input id="sign_in_password"
+								<label for="sign_in_password">密码</label> <input id="sign_in_password"
 									name="sign_in_password" type="password" class="form-control" />
 							</p>
 							<input type="submit" value="登录" class="btn btn-danger" />

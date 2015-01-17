@@ -38,7 +38,7 @@ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 			error-page="/403" />
 		<security:form-login login-page="/loginsignin"
 			authentication-failure-url="/loginfailure" default-target-url="/"
-			username-parameter="username" password-parameter="password"
+			username-parameter="sign_in_username" password-parameter="sign_in_password"
 			always-use-default-target="true" />
 
 		<security:logout invalidate-session="true"
