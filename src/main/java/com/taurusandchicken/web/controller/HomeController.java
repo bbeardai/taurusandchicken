@@ -92,8 +92,8 @@ public class HomeController {
 	@RequestMapping(value = "/reg", method = RequestMethod.GET)
 	public String reg(Locale locale, Model model,
 						@ModelAttribute("nickname")String nickname,
-						@ModelAttribute("username")String username,
-						@ModelAttribute("password")String password) throws UnsupportedEncodingException{
+						@ModelAttribute("sign_up_username")String username,
+						@ModelAttribute("sign_up_password")String password) throws UnsupportedEncodingException{
 		
 		//username=new String(username.getBytes("gb2312"),"UTF-8");
 		System.out.println(username);
@@ -104,7 +104,7 @@ public class HomeController {
 		System.out.println(username);
 		System.out.println(username);
 		System.out.println("处理中!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		return "afterreg";
+		return "redirect:home";
 	}
 	@RequestMapping(value = "/loginfailure", method = RequestMethod.GET)
 	public String loginfailure(Locale locale, Model model

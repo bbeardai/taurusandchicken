@@ -58,7 +58,7 @@ public class User {
 		super();
 		this.nickname = nickname;
 		this.password = password;
-		this.enabled = false;
+		this.enabled = true;
 		SimpleDateFormat sdf=new SimpleDateFormat("MM-dd-yyyy");
 		this.rdate = sdf.format(new Date(System.currentTimeMillis()));
 		this.username = username;

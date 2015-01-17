@@ -49,7 +49,7 @@ header{ width:100%; height:65px; border-bottom:#a35701 3px solid; background:#fb
 .header_top{ width:970px; margin:0 auto; padding:0;}
 nav{ width:765px; float:right; margin:0; padding:0; height:27px; line-height:27px;}
 nav a{ width:114px; height:27px; display:block; color:#FFF; float:left; text-align:center; font-size:14px; font-weight:bold; margin:0 10px 0 0;}
-nav a:hover,nav a.current{ background:url(images/nav_bg.png) center no-repeat; color:#FFF;}
+nav a:hover,nav a.current{ background:url(../images/nav_bg.png)  center no-repeat; color:#FFF;}
 .hreder_member{ float:right; height:38px; line-height:38px; margin:0; padding:0;}
 .hreder_member a{ margin:0 10px 0 0; color:#FFF;}
 
