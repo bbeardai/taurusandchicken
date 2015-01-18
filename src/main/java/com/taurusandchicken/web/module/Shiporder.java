@@ -17,6 +17,12 @@ public class Shiporder {
 	@Column(name = "status")
 	private String status;
 	
+	@Column(name = "tracking")
+	private String tracking;
+	
+	@Column(name = "paydate")
+	private String paydate;
+	
 	@ManyToOne
 	@JoinColumn(name = "username")
 	private User user;
@@ -36,6 +42,18 @@ public class Shiporder {
 		this.shiporderid = shiporderid;
 		this.status = "New";
 		this.user = user;
+		this.address = address;
+	}
+	
+	
+	
+
+	public Shiporder(String shiporderid, String status,
+			String paydate, Address address) {
+		super();
+		this.shiporderid = shiporderid;
+		this.status = "New";
+		this.paydate = paydate;
 		this.address = address;
 	}
 
@@ -70,5 +88,23 @@ public class Shiporder {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getTracking() {
+		return tracking;
+	}
+
+	public void setTracking(String tracking) {
+		this.tracking = tracking;
+	}
+
+	public String getPaydate() {
+		return paydate;
+	}
+
+	public void setPaydate(String paydate) {
+		this.paydate = paydate;
+	}
+	
+	
 
 }
