@@ -23,6 +23,9 @@ public class Shiporder {
 	@Column(name = "paydate")
 	private String paydate;
 	
+	@Column(name = "taobaoid")
+	private String taobaoid;
+	
 	@ManyToOne
 	@JoinColumn(name = "username")
 	private User user;
@@ -48,12 +51,15 @@ public class Shiporder {
 	
 	
 
-	public Shiporder(String shiporderid, String status,
-			String paydate, Address address) {
+	
+
+	public Shiporder(String shiporderid, String status, String paydate,
+			String taobaoid, Address address) {
 		super();
 		this.shiporderid = shiporderid;
-		this.status = "New";
+		this.status = "未上传身份证";
 		this.paydate = paydate;
+		this.taobaoid = taobaoid;
 		this.address = address;
 	}
 
@@ -103,6 +109,14 @@ public class Shiporder {
 
 	public void setPaydate(String paydate) {
 		this.paydate = paydate;
+	}
+
+	public String getTaobaoid() {
+		return taobaoid;
+	}
+
+	public void setTaobaoid(String taobaoid) {
+		this.taobaoid = taobaoid;
 	}
 	
 	
