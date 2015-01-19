@@ -52,6 +52,12 @@ public class Idphoto {
 			this.user = user;
 			
 		}
+		public Idphoto(String name) {
+			super();
+			this.idphotoid = UUID.randomUUID().toString();
+			this.name = name;
+			
+		}
 
 
 		public String getType() {

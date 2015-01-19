@@ -61,8 +61,10 @@ public class OrderDAO {
 		orders = query.list();
 		
 		trans.commit();
-
-		return orders.get(0);
+		if(orders.size()>0){
+			return orders.get(0);
+		}
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")

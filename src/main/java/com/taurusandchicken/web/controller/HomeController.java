@@ -11,10 +11,12 @@ import java.util.Locale;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.taurusandchicken.web.dao.AddressDAO;
@@ -42,6 +45,7 @@ import com.taurusandchicken.web.module.*;
  * Handles requests for the application home page.
  */
 @Controller
+@SessionAttributes({"username","nickname"})
 public class HomeController {
 	
 	@Autowired
@@ -68,7 +72,7 @@ public class HomeController {
 		String username = auth.getName();
 		model.addAttribute("username", username);
 		if(!username.equalsIgnoreCase("anonymousUser")){
-			model.addAttribute("username", userDAO.findByUserName(username).getnickname());
+			model.addAttribute("nickname", userDAO.findByUserName(username).getnickname());
 		}
 		
 	      
@@ -119,8 +123,7 @@ public class HomeController {
 		String username = auth.getName();
 		List<Idphoto> piclist = idphotoDAO.findByUserName(username);
 		model.addAttribute("piclist", piclist);
-		User user = userDAO.findByUserName(username);
-		model.addAttribute("username", user.getnickname());
+		
 		return "address";
 	}
 	
@@ -140,7 +143,6 @@ public class HomeController {
 						) throws UnsupportedEncodingException{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		model.addAttribute("username", userDAO.findByUserName(username).getnickname());
 		List<Idphoto> piclist = idphotoDAO.findByUserName(username);
 		model.addAttribute("piclist", piclist);
 		return "idphoto";
@@ -212,7 +214,6 @@ public class HomeController {
 	public String viewaddress(Locale locale, Model model) throws UnsupportedEncodingException{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		model.addAttribute("username", userDAO.findByUserName(username).getnickname());
 		List<Address> addresslist = addressDAO.findByUserName(username);
 		model.addAttribute("addresslist", addresslist);
 		
@@ -222,7 +223,6 @@ public class HomeController {
 	public String vieworder(Locale locale, Model model) throws UnsupportedEncodingException{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		model.addAttribute("username", userDAO.findByUserName(username).getnickname());
 		List<Shiporder> orderlist = orderDAO.findByUserName(username);
 		model.addAttribute("orderlist", orderlist);
 		
@@ -234,7 +234,6 @@ public class HomeController {
 			) throws UnsupportedEncodingException{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		model.addAttribute("username", userDAO.findByUserName(username).getnickname());
 		List<Address> addresslist = addressDAO.findByUserName(username);
 		model.addAttribute("addresslist", addresslist);
 		model.addAttribute("orderid", orderid);
@@ -261,14 +260,19 @@ public class HomeController {
 	
 	@RequestMapping(value = "/viewallorder", method = RequestMethod.GET)
 	public String viewallorder(Locale locale, Model model) throws UnsupportedEncodingException{
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		model.addAttribute("username", userDAO.findByUserName(username).getnickname());
+		
 		List<Shiporder> orderlist = orderDAO.Allorder();
 		model.addAttribute("orderlist", orderlist);
 		
 		return "viewallorder";
 	}
+	
+	@RequestMapping(value = "/newzhiyouorder", method = RequestMethod.GET)
+	public String newzhiyouorder(Locale locale, Model model) throws UnsupportedEncodingException{
+		
+		return "newzhiyouorder";
+	}
+	
 	@RequestMapping(value = "/shiped", method = RequestMethod.GET)
 	public String shiped(Locale locale, Model model,
 						@ModelAttribute("shiporderid")String shiporderid
@@ -277,6 +281,82 @@ public class HomeController {
 		shiporder.setStatus("Shioped");
 		shiporderDAO.updateOrder(shiporder);
 		return "redirect:viewallorder";
+	}
+	
+	@RequestMapping(value = "/addzhiyouorder", method = RequestMethod.GET)
+	public String addzhiyouorder(Locale locale, Model model,
+						@ModelAttribute("line1")String line1,
+						@ModelAttribute("province")String province,
+						@ModelAttribute("city")String city,
+						@ModelAttribute("zip")String zip,
+						@ModelAttribute("phone")String phone,
+						@ModelAttribute("memo")String memo,
+						@ModelAttribute("idphotoid")String idphotoid,
+						String taobaoid,
+						String name,
+						String shiporderid,
+						String paydate
+						) throws UnsupportedEncodingException{
+		
+		Idphoto idphoto = new Idphoto(name);
+		Address address = new Address(line1,province,city,zip,phone,memo,idphoto);
+		Shiporder shiporder = new Shiporder(shiporderid, paydate, taobaoid, address);
+		idphotoDAO.addUser(idphoto);
+		addressDAO.addAddress(address);
+		shiporderDAO.addOrder(shiporder);
+		
+		
+		return "redirect:viewallorder";
+	}
+	
+	@RequestMapping(value = "/zhiyoucheck", method = RequestMethod.GET)
+	public String zhiyoucheck(Locale locale, Model model) throws UnsupportedEncodingException{
+		return "zhiyoucheck";
+	}
+	@RequestMapping(value = "/zhiyoucheckaction", method = RequestMethod.GET)
+	public String zhiyoucheckaction(Locale locale, 
+			String shiporderid,
+			String name,
+			String phone,
+			Model model) throws UnsupportedEncodingException{
+		Shiporder shiporder = shiporderDAO.findById(shiporderid);
+		if(shiporder==null){
+			model.addAttribute("check", "没有此订单，请检查订单号");
+			return "zhiyoucheck";
+		}else{
+			if(shiporder.getAddress().getPhone().equalsIgnoreCase(phone)&&shiporder.getAddress().getIdphoto().getName().equalsIgnoreCase(name)){
+				model.addAttribute("check", "checked");
+				return "zhiyouidphoto";
+			}else{
+				model.addAttribute("check", "订单信息不匹配");
+				return "zhiyoucheck";
+			}
+		}
+		
+	}
+	
+	@RequestMapping(value = "/zhiyouidphoto", method = RequestMethod.GET)
+	public String zhiyouidphoto(Locale locale, Model model,HttpServletRequest req) throws UnsupportedEncodingException{
+		if(req.getSession().getAttribute("check")==null){
+			return "zhiyoucheck";
+		}else{
+			if(req.getSession().getAttribute("check").toString().equalsIgnoreCase("checked")){
+				return "zhiyouidphoto";
+			}else{
+				return "zhiyoucheck";
+			}
+		}		
+	}
+	
+	@RequestMapping(value = "/zhiyouuploadid", method = RequestMethod.POST)
+	public String zhiyouuploadid(
+			@RequestParam("filezm")CommonsMultipartFile filezm,
+			@RequestParam("filebm")CommonsMultipartFile filebm,
+			@ModelAttribute("name")String name,
+			ModelMap map, HttpServletRequest request, Model model
+			) throws FileNotFoundException, Exception{
+				return name;
+		
 	}
 	
 }

@@ -69,6 +69,19 @@ public class Address {
 		this.user = user;
 		this.idphoto = idphoto;
 	}
+	public Address(String line1,
+			String province, String city, String zip, String phone,
+			String memo, Idphoto idphoto) {
+		super();
+		this.addressid = UUID.randomUUID().toString();
+		this.line1 = line1;
+		this.province = province;
+		this.city = city;
+		this.zip = zip;
+		this.phone = phone;
+		this.memo = memo;
+		this.idphoto = idphoto;
+	}
 
 
 

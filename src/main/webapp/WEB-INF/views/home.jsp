@@ -40,7 +40,7 @@
 					</c:when>
 					<c:when test="${username != 'anonymousUser' }">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">您好,${username }<b class="caret"></b></a>
+							data-toggle="dropdown">您好,${nickname }<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="viewaddress">我的地址簿</a></li>
 								<li><a href="idphoto">我的身份证</a></li>
@@ -57,6 +57,7 @@
 						data-toggle="dropdown">发货人 <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="<c:url value = "/viewallorder"/>">订单管理</a></li>
+							<li><a href="<c:url value = "/newzhiyouorder"/>">添加直邮订单</a></li>
 
 						</ul></li>
 				</sec:authorize>
@@ -104,7 +105,7 @@
           </div>
             <div class="square">
             	<ul>
-                	<li><a href="#" target="_blank"><img src="resources/images/buttun2.png" width="100" height="101"></a></li>
+                	<li><a href="<c:url value = "/zhiyoucheck"/>" target="_blank" name = "shenfenzheng"><img src="resources/images/buttun2.png" width="100" height="101"></a></li>
                     <li><a href="#" target="_blank"><img src="resources/images/buttun3.png" width="101" height="101"></a></li>
                     <li><a href="#" target="_blank"><img src="resources/images/buttun4.png" width="101" height="101"></a></li>
                 </ul>

@@ -53,7 +53,7 @@ public class Shiporder {
 
 	
 
-	public Shiporder(String shiporderid, String status, String paydate,
+	public Shiporder(String shiporderid, String paydate,
 			String taobaoid, Address address) {
 		super();
 		this.shiporderid = shiporderid;

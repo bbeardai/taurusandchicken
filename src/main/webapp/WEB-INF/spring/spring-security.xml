@@ -20,10 +20,17 @@ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 		<security:intercept-url pattern="/vieworder" access="hasRole('ROLE_SHOPER')" />
 		<security:intercept-url pattern="/neworder" access="hasRole('ROLE_SHOPER')" />
 		<security:intercept-url pattern="/viewallorder" access="hasRole('ROLE_SHIPER')" />
+		<security:intercept-url pattern="/newzhiyouorder" access="hasRole('ROLE_SHIPER')" />
+		<security:intercept-url pattern="/addzhiyouorder" access="hasRole('ROLE_SHIPER')" />
 		<security:intercept-url pattern="/shiped" access="hasRole('ROLE_SHIPER')" />
 		<security:intercept-url pattern="/loginfailure" access="permitAll" />
 		<security:intercept-url pattern="/reg" access="permitAll" />
 		<security:intercept-url pattern="/loginsignin" access="permitAll" />
+		<security:intercept-url pattern="/zhiyoucheckaction" access="permitAll" />
+		<security:intercept-url pattern="/zhiyoucheck" access="permitAll" />
+		<security:intercept-url pattern="/zhiyouidphoto" access="permitAll" />
+		<security:intercept-url pattern="/zhiyouuploadid" access="permitAll" />
+		
 		
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/home" access="permitAll" />
