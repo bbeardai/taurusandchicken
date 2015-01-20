@@ -9,6 +9,8 @@
 <html>
 
 <head>
+   
+
 <meta name="viewpoint"
 	content="width = device-width, initial-scale = 1.0">
 
@@ -20,7 +22,7 @@
 	href="resources/css/annotorious.css" />
 <title>Taurus and Chicken</title>
 </head>
-<body>
+<body onload="Init();">
 	<div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<a href="/" class="navbar-brand"> Taurus and Chicken</a>
@@ -76,70 +78,75 @@
 		</div>
 	</div>
 </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2"></div>
 
-	<c:forEach items="${orderlist }" var="order">
-		<div class="container">
-			<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-md-6">
-			<table class="table table-striped">
-				<tbody>
-				<thead>
-      <tr>
-         <th colspan=2 >订单号：${order.shiporderid }</th>
-         <th >状态：${order.status }<a href="<c:url value = "/shiped?shiporderid=${order.shiporderid }"/>">已发货
-							</a></th>
-         
-      </tr>
-   </thead>
-					<tr>
-						<th colspan=3>详细地址：${order.address.line1 }</th>
-					</tr>
-					
-					<tr>
-						<td>省：${order.address.province }</td>
-						<td>城市：${order.address.city }</td>
-						<td>邮编：${order.address.zip }</td>
-					</tr>
-					<tr>
-						<td>收件人：${order.address.idphoto.name }</td>
-						<td>电话：${order.address.phone }</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>淘宝ID：${order.taobaoid }</td>
-						<td>付款日期：${order.paydate }</td>
-						<td></td>
-					</tr>
-					<tr>
-						<th colspan=3>备注：${order.address.memo }</th>
-					</tr>
-					<c:if test="${order.status!= '未上传身份证' }">
-						<tr>
-						<th colspan=3>
-						<img src="resources/upload/${order.address.idphoto.idphotoid}ZM${order.address.idphoto.type}"
-					 height＝211px; width＝370px;/>
-					<img src="resources/upload/${order.address.idphoto.idphotoid}BM${order.address.idphoto.type}"
-					 height＝211px; width＝370px;/>
-					</th>
-					</tr>
-					</c:if>
-					
-					
-				</tbody>
-				</table>
+			<div class="col-md-8">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">编辑地址</h3>
+					</div>
+					<div class="panel-body">
+						<form action=" <c:url value='/addzhiyouorder' />" method="get">
+							<p>
+								<label for="shiporderid">订单号</label> <input id="shiporderid" name="shiporderid"
+									type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="taobaoid">淘宝用户名</label> <input id="taobaoid" name="taobaoid"
+									type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="paydate">付款日期</label> <input id="paydate" name="paydate"
+									type="date" class="form-control" />
+							</p>
+							<p>
+								<label for="province">省</label> <input id="province"
+									name="province" type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="city">城市</label> <input id="city" name="city"
+									type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="line1">详细地址</label> <input id="line1" name="line1"
+									type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="name">收件人姓名</label> <input id="name" name="name"
+									type="text" class="form-control" />
+							</p>
+							
+							
+							<p>
+								<label for="zip">邮编</label> <input id="zip" name="zip"
+									type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="phone">电话</label> <input id="phone" name="phone"
+									type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="memo">备注</label> <input id="memo" name="memo"
+									type="text" class="form-control" />
+							</p>
+							
+							
+						<input type="submit" value="保存" class="btn btn-danger" />
+						</form>
+					</div>
 				</div>
-				<div class="col-md-3"></div>
+
 			</div>
+			<div class="col-md-2"></div>
 		</div>
-	</c:forEach>
+	</div>
 
-
-	
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="resources/js/bootstrap.js"></script>
 	<script type="text/javascript" src="resources/js/annotorious.min.js"></script>
-
+	<script type="text/javascript" src="resources/js/address.js"></script>
 </body>
 </html>

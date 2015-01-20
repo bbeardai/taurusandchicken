@@ -32,31 +32,24 @@ public class UserDAO {
 	public User findByUserName(String username) {
 		System.out.println("findByUserName");
 		List<User> users = new ArrayList<User>();
-		System.out.println("=====++++++++=======1");
 		Session session=sessionFactory.getCurrentSession();
-		System.out.println("=====++++++++=======2");
 		Transaction trans=session.beginTransaction();
 		String hql = "from User where username = '"+username+"'";
 		org.hibernate.Query query = session.createQuery(hql);
 		users = query.list();
 		
+		if(users.size()==0){
+			trans.commit();
+			return null;
+		}else{
+			User user = users.get(0);
+			
+			trans.commit();
+			return user;
+			
+		}
 		
-		System.out.println("=====++++++++=======3");
-
-		User user = users.get(0);
-		//User user = new User();
-
-		/*String hql2 = "from UserRole where username = '"+username+"'";
-		org.hibernate.Query query2 = session.createQuery(hql2);
-		Set<UserRole> foo = new HashSet<UserRole>(query2.list());
-		user.setUserRole(foo); 
 		
-		*/
-		trans.commit();
-		System.out.println("=====++++++++=======4");
-
-
-		return user;
 	}
 
 	

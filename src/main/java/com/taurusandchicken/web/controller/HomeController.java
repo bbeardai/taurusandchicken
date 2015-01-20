@@ -45,7 +45,7 @@ import com.taurusandchicken.web.module.*;
  * Handles requests for the application home page.
  */
 @Controller
-@SessionAttributes({"username","nickname"})
+@SessionAttributes({"username"})
 public class HomeController {
 	
 	@Autowired
@@ -65,30 +65,18 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, Model model, HttpServletRequest req) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		model.addAttribute("username", username);
+		System.out.println(username+"homepage");
 		if(!username.equalsIgnoreCase("anonymousUser")){
-			model.addAttribute("nickname", userDAO.findByUserName(username).getnickname());
+			req.getSession().setAttribute("nickname", userDAO.findByUserName(username).getnickname());
+			
+			
 		}
-		
-	      
-	      
-	      /*
-	      String sn=userService.getSN(name);
-	      if(sn!=null){
-	    	  model.addAttribute("username", sn);
-	    	  System.out.println(sn+"home page sn");
-	      }else{
-	    	  model.addAttribute("username", name);
-	    	  System.out.println(sn+"home page sns");
-	      }
-	      */
-	      //List<Picture> piclist = pictureService.homePicture();
-	      //model.addAttribute("piclist", piclist);
 		
 		return "home";
 	}
@@ -99,17 +87,20 @@ public class HomeController {
 						@ModelAttribute("sign_up_username")String username,
 						@ModelAttribute("sign_up_password")String password) throws UnsupportedEncodingException{
 		
-		//username=new String(username.getBytes("gb2312"),"UTF-8");
-		System.out.println(username);
-		//email=new String(email.getBytes("ISO-8859-1"),"UTF-8");
-		userDAO.addUser(nickname, username,  password);
-		//String info = "http://localhost:8080/myweb/comf?sn="+username;
-		//Email.sendMail(email, info);
-		System.out.println(username);
-		System.out.println(username);
-		System.out.println("处理中!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		return "redirect:/";
+		if(userDAO.findByUserName(username)==null){
+			userDAO.addUser(nickname, username,  password);
+			
+			model.addAttribute("message", "恭喜注册成功");
+			return "loginsignin";
+		}else{
+			model.addAttribute("message", "这个邮箱已经注册过了");
+			return "loginsignin";
+		}
+		
 	}
+	
+	
+	
 	@RequestMapping(value = "/loginfailure", method = RequestMethod.GET)
 	public String loginfailure(Locale locale, Model model
 						) throws UnsupportedEncodingException{
@@ -324,12 +315,18 @@ public class HomeController {
 			model.addAttribute("check", "没有此订单，请检查订单号");
 			return "zhiyoucheck";
 		}else{
-			if(shiporder.getAddress().getPhone().equalsIgnoreCase(phone)&&shiporder.getAddress().getIdphoto().getName().equalsIgnoreCase(name)){
-				model.addAttribute("check", "checked");
-				return "zhiyouidphoto";
-			}else{
-				model.addAttribute("check", "订单信息不匹配");
+			if(!shiporder.getStatus().equalsIgnoreCase("未上传身份证")){
+				model.addAttribute("check", "身份证已上传");
 				return "zhiyoucheck";
+			}else{
+				if(shiporder.getAddress().getPhone().equalsIgnoreCase(phone)&&shiporder.getAddress().getIdphoto().getName().equalsIgnoreCase(name)){
+					model.addAttribute("check", "checked");
+					model.addAttribute("shiporderid", shiporderid);
+					return "zhiyouidphoto";
+				}else{
+					model.addAttribute("check", "订单信息不匹配");
+					return "zhiyoucheck";
+				}
 			}
 		}
 		
@@ -341,6 +338,7 @@ public class HomeController {
 			return "zhiyoucheck";
 		}else{
 			if(req.getSession().getAttribute("check").toString().equalsIgnoreCase("checked")){
+				
 				return "zhiyouidphoto";
 			}else{
 				return "zhiyoucheck";
@@ -352,11 +350,60 @@ public class HomeController {
 	public String zhiyouuploadid(
 			@RequestParam("filezm")CommonsMultipartFile filezm,
 			@RequestParam("filebm")CommonsMultipartFile filebm,
-			@ModelAttribute("name")String name,
+			@ModelAttribute("shiporderid")String shiporderid,
 			ModelMap map, HttpServletRequest request, Model model
 			) throws FileNotFoundException, Exception{
-				return name;
-		
+		if (!filezm.isEmpty()&&!filebm.isEmpty()) {
+				boolean flag = false;
+			   
+			   String fileNamezm = filezm.getOriginalFilename();
+			   String fileTypezm = fileNamezm.substring(fileNamezm.lastIndexOf("."));
+			   String fileNamebm = filezm.getOriginalFilename();
+			   String fileTypebm = fileNamebm.substring(fileNamebm.lastIndexOf("."));
+			   
+			   if(fileTypezm.equalsIgnoreCase(fileTypebm)){
+				   String fileType = fileNamebm;
+				   System.out.println(fileType); 
+				   String path = request.getSession().getServletContext().getRealPath("/")+"resources/upload";
+				   System.out.println(path);
+				   
+				   Shiporder shiporder = shiporderDAO.findById(shiporderid);
+				   
+				   Idphoto idphoto = shiporder.getAddress().getIdphoto();
+				   idphoto.setPath(path);
+				   idphoto.setType(fileType);
+				   File filezm2 = new File(path,idphoto.getIdphotoid() + "ZM"+ fileType);
+				   File filebm2 = new File(path,idphoto.getIdphotoid() + "BM"+fileType);
+				   System.out.println(fileType);
+				   idphotoDAO.updateIdphoto(idphoto);
+				   shiporder.setStatus("已上传身份证");
+				   shiporderDAO.updateOrder(shiporder);
+				   
+				   
+				   try {
+					    filezm.getFileItem().write(filezm2); 
+					    System.out.println("----------------");
+				   } catch (Exception e) {
+					    e.printStackTrace();
+				   }
+				   try {
+					    filebm.getFileItem().write(filebm2); 
+					    System.out.println("----------------");
+				   } catch (Exception e) {
+					    e.printStackTrace();
+				   }
+				   
+				
+				   model.addAttribute("check", "上传成功，谢谢");
+					return "zhiyoucheck";
+			   }else{
+				   model.addAttribute("check", "文件类型不同");
+					return "redirect:zhiyouuploadid";
+			   }
+			}else{
+				model.addAttribute("check", "请选择文件");
+				return "redirect:zhiyouuploadid";
+			}
 	}
 	
 }

@@ -27,6 +27,14 @@ public class IdphotoDAO {
 		
 		trans.commit();
 	}
+	public void updateIdphoto(Idphoto idphoto) {
+
+		Session session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		session.update(idphoto);
+		
+		trans.commit();
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Idphoto> findByUserName(String username) {

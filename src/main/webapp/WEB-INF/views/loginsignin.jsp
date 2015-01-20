@@ -52,6 +52,7 @@
 						<h3 class="panel-title">用户注册</h3>
 					</div>
 					<div class="panel-body">
+					<h3>${message }</h3>
 						<form action=" <c:url value='/reg' />" method="get" id="sign_up_form">
 							<p>
 								<label for="nickname">昵称</label> <input id="nickname"
