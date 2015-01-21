@@ -77,31 +77,17 @@
 	</div>
 </div>
 
-	<c:forEach items="${orderlist }" var="order">
+	
 		<div class="container">
 			<div class="row">
-			<div class="col-md-2"></div>
+			
 			<div class="col-md-8">
 			<table class="table table-striped">
 				<tbody>
 				<thead>
       <tr>
          <th colspan=2 >订单号：${order.shiporderid }</th>
-         <th >状态：${order.status }
-         
-         <c:choose>
-    <c:when test="${order.status== '已上传身份证' }">
-       <a href="<c:url value = "/checked?shiporderid=${order.shiporderid }"/>">验证
-							</a>
-    </c:when>
-     <c:when test="${order.status== '已验证' }">
-       <a href="<c:url value = "/shiped?shiporderid=${order.shiporderid }"/>">已发货
-							</a>
-    </c:when>
-    
-</c:choose>
-         
-							</th>
+         <th >状态：${order.status }</th>
          
       </tr>
    </thead>
@@ -125,7 +111,7 @@
 						<td></td>
 					</tr>
 					<tr>
-						<th colspan=3>备注：${order.address.memo }</th>
+						<th colspan=3>邮寄地址备注：${order.address.memo }</th>
 					</tr>
 					<tr>
 						<th colspan=3>订单明细</th>
@@ -145,25 +131,47 @@
 					
 					
 					</c:forEach>
-					<c:if test="${order.status!= '未上传身份证' }">
-						<tr>
-						<th colspan=3>
-						<img src="resources/upload/${order.address.idphoto.idphotoid}ZM${order.address.idphoto.type}"
-					 width="340" height="220"/>
-					<img src="resources/upload/${order.address.idphoto.idphotoid}BM${order.address.idphoto.type}"
-					 width="340" height="220"/>
-					</th>
-					</tr>
-					</c:if>
+					
 					
 					
 				</tbody>
 				</table>
+				
+				
 				</div>
-				<div class="col-md-2"></div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3">
+				<form action=" <c:url value='/additem' />" method="get" >
+							<p>
+								<label for="productid">商品ID</label> <input id="productid"
+									name="productid" type="text" class="form-control" />
+							</p>
+							<p>
+								<label for="quantity">数量</label> <input id="quantity"
+									name="quantity" type="number" class="form-control" />
+							</p>
+							<p>
+								<label for="password">密码</label> 
+								<select name = "size">
+									  <option value="XS">XS</option>
+									  <option value="S">S</option>
+									  <option value="M">M</option>
+									  <option value="L">L</option>
+									  <option value="XL">XL</option>
+									  <option value="XXL">XXL</option>
+									  <option value="XXXL">XXXL</option>
+									  <option value="XXXXL">XXXXL</option>
+									  <option value="XXXXXL">XXXXXL</option>
+									  
+								</select>
+							</p>
+							<input  type="hidden" value="${order.shiporderid }" name = "shiporderid" />
+							<input type="submit" value="添加" class="btn btn-danger" />
+						</form>
+						<a href="<c:url value = "/viewallorder"/>"><h4>添加完成</h4></a>
+				</div>
 			</div>
 		</div>
-	</c:forEach>
 
 
 	

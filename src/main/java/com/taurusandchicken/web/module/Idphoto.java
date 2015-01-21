@@ -30,6 +30,9 @@ public class Idphoto {
 		@Column(name = "name")
 		private String name;
 		
+		@Column(name = "idnumber")
+		private String idnumber;
+		
 		@ManyToOne
 		@JoinColumn(name = "username")
 		private User user;
@@ -127,6 +130,16 @@ public class Idphoto {
 
 		public void setAddress(Set<Address> address) {
 			this.address = address;
+		}
+
+
+		public String getIdnumber() {
+			return idnumber;
+		}
+
+
+		public void setIdnumber(String idnumber) {
+			this.idnumber = idnumber;
 		}
 		
 		

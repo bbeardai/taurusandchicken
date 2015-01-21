@@ -42,7 +42,15 @@
 							</p>
 							<p>
 								<label for="phone">收货电话</label> <input id="phone"
-									name="phone" type="text" class="form-control" />
+									name="phone" type="tel" class="form-control" />
+							</p>
+							<p>
+								<label for="username">邮箱</label> <input id="username"
+									name="username" type="email" class="form-control" />
+							</p>
+							<p>
+								<label for="idnumber">身份证号码</label> <input id="idnumber"
+									name="idnumber" type="text" class="form-control" />
 							</p>
 							<input type="submit" value="上传身份证照片" class="btn btn-danger" />
 						</form>

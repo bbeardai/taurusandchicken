@@ -26,6 +26,7 @@
 		<mapping class="com.taurusandchicken.web.module.Address" />
 		<mapping class="com.taurusandchicken.web.module.Shiporder" />
 		<mapping class="com.taurusandchicken.web.module.Idphoto" />
+		<mapping class="com.taurusandchicken.web.module.Orderitem" />
 		
 
 

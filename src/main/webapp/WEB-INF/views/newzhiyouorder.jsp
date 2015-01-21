@@ -83,6 +83,7 @@
 			<div class="col-md-2"></div>
 
 			<div class="col-md-8">
+			<h3>${message }</h3>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">编辑地址</h3>
@@ -100,6 +101,10 @@
 							<p>
 								<label for="paydate">付款日期</label> <input id="paydate" name="paydate"
 									type="date" class="form-control" />
+							</p>
+							<p>
+								<label for="shopname">店铺名称</label> <input id="shopname" name="shopname"
+									type="text" class="form-control" />
 							</p>
 							<p>
 								<label for="province">省</label> <input id="province"

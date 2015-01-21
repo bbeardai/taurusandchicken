@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.taurusandchicken.web.dao.AddressDAO;
 import com.taurusandchicken.web.dao.IdphotoDAO;
 import com.taurusandchicken.web.dao.OrderDAO;
+import com.taurusandchicken.web.dao.OrderitemDAO;
 import com.taurusandchicken.web.dao.UserDAO;
 import com.taurusandchicken.web.module.*;
 
@@ -58,6 +60,8 @@ public class HomeController {
 	OrderDAO orderDAO;
 	@Autowired
 	OrderDAO shiporderDAO;
+	@Autowired
+	OrderitemDAO orderitemDAO;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -126,7 +130,6 @@ public class HomeController {
 	@RequestMapping(value = "/loginsignin", method = RequestMethod.GET)
 	public String loginsignin(Locale locale, Model model
 						) throws UnsupportedEncodingException{
-		System.out.println("000000000000000000000000000000000");
 		return "loginsignin";
 	}
 	@RequestMapping(value = "/idphoto", method = RequestMethod.GET)
@@ -269,7 +272,16 @@ public class HomeController {
 						@ModelAttribute("shiporderid")String shiporderid
 						) throws UnsupportedEncodingException{
 		Shiporder shiporder = shiporderDAO.findById(shiporderid);
-		shiporder.setStatus("Shioped");
+		shiporder.setStatus("已发货");
+		shiporderDAO.updateOrder(shiporder);
+		return "redirect:viewallorder";
+	}
+	@RequestMapping(value = "/checked", method = RequestMethod.GET)
+	public String chicked(Locale locale, Model model,
+						@ModelAttribute("shiporderid")String shiporderid
+						) throws UnsupportedEncodingException{
+		Shiporder shiporder = shiporderDAO.findById(shiporderid);
+		shiporder.setStatus("已验证");
 		shiporderDAO.updateOrder(shiporder);
 		return "redirect:viewallorder";
 	}
@@ -286,18 +298,45 @@ public class HomeController {
 						String taobaoid,
 						String name,
 						String shiporderid,
-						String paydate
+						String paydate,
+						String shopname
 						) throws UnsupportedEncodingException{
+		Shiporder shiporder = shiporderDAO.findById(shiporderid);
+		if(shiporder==null){
+			Idphoto idphoto = new Idphoto(name);
+			Address address = new Address(line1,province,city,zip,phone,memo,idphoto);
+			shiporder = new Shiporder(shiporderid, paydate, taobaoid, address, shopname);
+			idphotoDAO.addUser(idphoto);
+			addressDAO.addAddress(address);
+			shiporderDAO.addOrder(shiporder);
+			model.addAttribute("order", shiporder);
+			return "addorderitem";
+		}else{
+			model.addAttribute("message", "此订单已存在");
+			return "newzhiyouorder";
+		}
 		
-		Idphoto idphoto = new Idphoto(name);
-		Address address = new Address(line1,province,city,zip,phone,memo,idphoto);
-		Shiporder shiporder = new Shiporder(shiporderid, paydate, taobaoid, address);
-		idphotoDAO.addUser(idphoto);
-		addressDAO.addAddress(address);
-		shiporderDAO.addOrder(shiporder);
+	}
+	
+	@RequestMapping(value = "/addorderitem", method = RequestMethod.GET)
+	public String addorderitem(Locale locale, Model model) throws UnsupportedEncodingException{
+		return "addorderitem";
+	}
+	
+	@RequestMapping(value = "/additem", method = RequestMethod.GET)
+	public String additem(Locale locale, Model model,
+			String productid,
+			int quantity,
+			String size,
+			String shiporderid
+			) throws UnsupportedEncodingException{
 		
-		
-		return "redirect:viewallorder";
+		Shiporder shiporder = shiporderDAO.findById(shiporderid);
+		Orderitem orderitem = new Orderitem(productid, quantity, size, shiporder);
+		orderitemDAO.addOrderitem(orderitem);
+		Shiporder shiporder1 = shiporderDAO.findById(shiporderid);
+		model.addAttribute("order", shiporder1);
+		return "addorderitem";
 	}
 	
 	@RequestMapping(value = "/zhiyoucheck", method = RequestMethod.GET)
@@ -309,6 +348,8 @@ public class HomeController {
 			String shiporderid,
 			String name,
 			String phone,
+			String username,
+			String idnumber,
 			Model model) throws UnsupportedEncodingException{
 		Shiporder shiporder = shiporderDAO.findById(shiporderid);
 		if(shiporder==null){
@@ -320,9 +361,34 @@ public class HomeController {
 				return "zhiyoucheck";
 			}else{
 				if(shiporder.getAddress().getPhone().equalsIgnoreCase(phone)&&shiporder.getAddress().getIdphoto().getName().equalsIgnoreCase(name)){
-					model.addAttribute("check", "checked");
-					model.addAttribute("shiporderid", shiporderid);
-					return "zhiyouidphoto";
+					if(userDAO.findByUserName(username)==null){
+						userDAO.addUser(username, username, UUID.randomUUID().toString());
+						shiporder.setUser(userDAO.findByUserName(username));
+						shiporderDAO.updateOrder(shiporder);
+					}
+					Idphoto idphoto = idphotoDAO.findByidnumber(idnumber);
+					if(idphoto==null){
+						model.addAttribute("check", "checked");
+						model.addAttribute("idnumber", idnumber);
+						model.addAttribute("shiporderid", shiporderid);
+						return "zhiyouidphoto";
+					}else{
+						if(idphoto.getName().equalsIgnoreCase(name)){
+							Address address = shiporder.getAddress();
+							address.setIdphoto(idphoto);
+							addressDAO.updateAddress(address);
+							shiporder.setStatus("已上传身份证");
+							shiporderDAO.updateOrder(shiporder);
+							
+							model.addAttribute("check", "身份证已在档案中，无需上传，谢谢");
+							return "zhiyoucheck";
+						}else{
+							model.addAttribute("check", "身份证信息不匹配");
+							return "zhiyoucheck";
+						}
+					}
+					
+					
 				}else{
 					model.addAttribute("check", "订单信息不匹配");
 					return "zhiyoucheck";
@@ -351,6 +417,7 @@ public class HomeController {
 			@RequestParam("filezm")CommonsMultipartFile filezm,
 			@RequestParam("filebm")CommonsMultipartFile filebm,
 			@ModelAttribute("shiporderid")String shiporderid,
+			@ModelAttribute("idnumber")String idnumber,
 			ModelMap map, HttpServletRequest request, Model model
 			) throws FileNotFoundException, Exception{
 		if (!filezm.isEmpty()&&!filebm.isEmpty()) {
@@ -362,7 +429,7 @@ public class HomeController {
 			   String fileTypebm = fileNamebm.substring(fileNamebm.lastIndexOf("."));
 			   
 			   if(fileTypezm.equalsIgnoreCase(fileTypebm)){
-				   String fileType = fileNamebm;
+				   String fileType = fileTypebm;
 				   System.out.println(fileType); 
 				   String path = request.getSession().getServletContext().getRealPath("/")+"resources/upload";
 				   System.out.println(path);
@@ -372,7 +439,8 @@ public class HomeController {
 				   Idphoto idphoto = shiporder.getAddress().getIdphoto();
 				   idphoto.setPath(path);
 				   idphoto.setType(fileType);
-				   File filezm2 = new File(path,idphoto.getIdphotoid() + "ZM"+ fileType);
+				   idphoto.setIdnumber(idnumber);
+				   File filezm2 = new File(path,idphoto.getIdphotoid() + "ZM"+fileType);
 				   File filebm2 = new File(path,idphoto.getIdphotoid() + "BM"+fileType);
 				   System.out.println(fileType);
 				   idphotoDAO.updateIdphoto(idphoto);

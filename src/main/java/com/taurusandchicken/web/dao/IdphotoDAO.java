@@ -62,7 +62,30 @@ public class IdphotoDAO {
 		
 		trans.commit();
 
-		return idphotos.get(0);
+		if(idphotos.size()==0){
+			return null;
+		}else{
+			return idphotos.get(0);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Idphoto findByidnumber(String idnumber) {
+		List<Idphoto> idphotos = new ArrayList<Idphoto>();
+		Session session=sessionFactory.getCurrentSession();
+		Transaction trans=session.beginTransaction();
+		String hql = "from Idphoto where idnumber = '"+idnumber+"'";
+		org.hibernate.Query query = session.createQuery(hql);
+		idphotos = query.list();
+		
+		trans.commit();
+
+		if(idphotos.size()==0){
+			return null;
+		}else{
+			return idphotos.get(0);
+		}
+	
 	}
 	
 	

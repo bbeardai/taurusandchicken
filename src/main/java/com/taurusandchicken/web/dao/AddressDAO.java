@@ -28,6 +28,15 @@ public class AddressDAO {
 		
 		trans.commit();
 	}
+	
+	public void updateAddress(Address address) {
+
+		Session session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		session.update(address);
+		
+		trans.commit();
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Address> findByUserName(String username) {
