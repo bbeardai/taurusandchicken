@@ -46,10 +46,11 @@ public class Address {
 	@JoinColumn(name = "idphotoid")
 	private Idphoto idphoto;
 	
-	@OneToMany(mappedBy = "address" ,orphanRemoval=true,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "address" ,fetch = FetchType.LAZY)
 	private Set<Shiporder> orders = new HashSet<Shiporder>(0);
 	
 	public Address() {
+		this.addressid = UUID.randomUUID().toString();
 		// TODO Auto-generated constructor stub
 	}
 

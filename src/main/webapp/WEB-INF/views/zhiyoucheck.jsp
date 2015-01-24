@@ -44,10 +44,7 @@
 								<label for="phone">收货电话</label> <input id="phone"
 									name="phone" type="tel" class="form-control" />
 							</p>
-							<p>
-								<label for="username">邮箱</label> <input id="username"
-									name="username" type="email" class="form-control" />
-							</p>
+							
 							<p>
 								<label for="idnumber">身份证号码</label> <input id="idnumber"
 									name="idnumber" type="text" class="form-control" />

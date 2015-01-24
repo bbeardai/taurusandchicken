@@ -43,6 +43,7 @@
 						<input type="hidden"  name="shiporderid" value = "${shiporderid }"/>
 						<input type="hidden"  name="idnumber" value = "${idnumber }"/>
 						
+						
 						 <input type="submit" value = "上传" class="btn btn-primary btn-lg pull-right" />
 					</form>
 					</div>

@@ -151,7 +151,7 @@
 									name="quantity" type="number" class="form-control" />
 							</p>
 							<p>
-								<label for="password">密码</label> 
+								<label for="size">尺寸</label> 
 								<select name = "size">
 									  <option value="XS">XS</option>
 									  <option value="S">S</option>

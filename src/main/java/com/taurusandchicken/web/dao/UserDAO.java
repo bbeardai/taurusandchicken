@@ -18,11 +18,11 @@ public class UserDAO {
 	@Autowired
 	SessionFactory sessionFactory;
 
-	public void addUser(String email, String username, String password) {
+	public void addUser(User user) {
 
 		Session session = sessionFactory.getCurrentSession();
 		Transaction trans = session.beginTransaction();
-		User user = new User(email, username, password);
+		
 		session.save(user);
 		UserRole  userRole = new UserRole(user, "ROLE_SHOPER");
 		session.save(userRole);

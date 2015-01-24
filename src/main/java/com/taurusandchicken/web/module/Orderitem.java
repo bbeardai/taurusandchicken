@@ -34,6 +34,7 @@ public class Orderitem {
 	private Shiporder shiporder;
 	
 	public Orderitem() {
+		this.orderitemid = UUID.randomUUID().toString();
 		// TODO Auto-generated constructor stub
 	}
 

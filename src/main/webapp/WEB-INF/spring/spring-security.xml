@@ -26,6 +26,7 @@ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 		<security:intercept-url pattern="/checked" access="hasRole('ROLE_SHIPER')" />
 		<security:intercept-url pattern="/addorderitem" access="hasRole('ROLE_SHIPER')" />
 		<security:intercept-url pattern="/additem" access="hasRole('ROLE_SHIPER')" />
+		<security:intercept-url pattern="/uploadexcel" access="hasRole('ROLE_SHIPER')" />
 
 		<security:intercept-url pattern="/loginfailure" access="permitAll" />
 		<security:intercept-url pattern="/reg" access="permitAll" />

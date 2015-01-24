@@ -37,22 +37,24 @@ public class Idphoto {
 		@JoinColumn(name = "username")
 		private User user;
 		
-		@OneToMany(mappedBy = "idphoto" ,orphanRemoval=true,fetch = FetchType.LAZY)
+		@OneToMany(mappedBy = "idphoto" ,fetch = FetchType.LAZY)
 		private Set<Address> address = new HashSet<Address>(0);
 		
 		
 		public Idphoto() {
+			this.idphotoid = UUID.randomUUID().toString();
 			// TODO Auto-generated constructor stub
 		}
 
 
-		public Idphoto(String path, String type, String name, User user) {
+		public Idphoto(String path, String type, String name, User user, String idnumber) {
 			super();
 			this.idphotoid = UUID.randomUUID().toString();
 			this.path = path;
 			this.name = name;
 			this.type = type;
 			this.user = user;
+			this.idnumber = idnumber;
 			
 		}
 		
@@ -65,10 +67,11 @@ public class Idphoto {
 			
 		}
 		
-		public Idphoto(String name) {
+		public Idphoto(String name, User user) {
 			super();
 			this.idphotoid = UUID.randomUUID().toString();
 			this.name = name;
+			this.user = user;
 			
 		}
 

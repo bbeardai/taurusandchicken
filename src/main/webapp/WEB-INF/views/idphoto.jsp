@@ -68,11 +68,14 @@
 		</div>
 		<div class="row">
 			</c:if>
-			<div class="col-md-3">
+			<div class="col-md-8">
 	<div class="container">
 
-				<img src="resources/upload/${pic.idphotoid}${pic.type}"
-					class="annotatable" style="max-height: 211px; max-width: 370px;"/>
+				<h3>姓名：${pic.name }</h3><h3>    </h3><h3>身份证号码：${pic.idnumber }</h3><br>
+				<img src="resources/upload/${pic.idphotoid}ZM${pic.type}"
+					 width="340" height="220"/>
+					<img src="resources/upload/${pic.idphotoid}BM${pic.type}"
+					 width="340" height="220"/><br><br>
 </div>
 
 			</div>
@@ -90,12 +93,20 @@
 					<form action="<c:url value='/uploadid'/>" method="post"
 						enctype="multipart/form-data">
 						<p>
-							<label for="file">选择上传图片</label> <input id="file"
-								name="file" type="file" class="form-control" />
+							<label for="filezm">身份证正面</label> <input id="filezm"
+								name="filezm" type="file" class="form-control" />
+						</p>
+						<p>
+							<label for="filebm">身份证背面</label> <input id="filebm"
+								name="filebm" type="file" class="form-control" />
 						</p>
 						<p>
 							<label for="name">姓名</label> <input id="name"
 								name="name" type="text" class="form-control" />
+						</p>
+						<p>
+							<label for="idnumber">身份证号码</label> <input id="idnumber"
+								name="idnumber" type="text" class="form-control" />
 						</p>
 						 <input type="submit" value = "上传" class="btn btn-primary btn-lg pull-right" />
 					</form>

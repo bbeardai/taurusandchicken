@@ -1,6 +1,8 @@
 package com.taurusandchicken.web.module;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -22,6 +24,12 @@ public class Shiporder {
 	@Column(name = "status")
 	private String status;
 	
+	@Column(name = "iduploaded")
+	private boolean iduploaded;
+	
+	@Column(name = "memo")
+	private String memo;
+	
 	@Column(name = "tracking")
 	private String tracking;
 	
@@ -39,10 +47,14 @@ public class Shiporder {
 	private User user;
 	
 	@ManyToOne
+	@JoinColumn(name = "cs")
+	private User cs;
+	
+	@ManyToOne
 	@JoinColumn(name = "addressid")
 	private Address address;
 	
-	@OneToMany(mappedBy = "shiporder" ,orphanRemoval=true,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "shiporder" ,fetch = FetchType.EAGER)
 	private Set<Orderitem> orderitems = new HashSet<Orderitem>(0);
 	
 	
@@ -65,7 +77,7 @@ public class Shiporder {
 	
 
 	public Shiporder(String shiporderid, String paydate,
-			String taobaoid, Address address,String shopname) {
+			String taobaoid, Address address,String shopname,User user) {
 		super();
 		this.shiporderid = shiporderid;
 		this.status = "未上传身份证";
@@ -73,6 +85,7 @@ public class Shiporder {
 		this.taobaoid = taobaoid;
 		this.address = address;
 		this.shopname = shopname;
+		this.user = user;
 	}
 
 	public String getShiporderid() {
@@ -131,6 +144,8 @@ public class Shiporder {
 		this.taobaoid = taobaoid;
 	}
 
+	
+
 	public Set<Orderitem> getOrderitems() {
 		return orderitems;
 	}
@@ -145,6 +160,30 @@ public class Shiporder {
 
 	public void setShopname(String shopname) {
 		this.shopname = shopname;
+	}
+
+	public User getCs() {
+		return cs;
+	}
+
+	public void setCs(User cs) {
+		this.cs = cs;
+	}
+
+	public boolean isIduploaded() {
+		return iduploaded;
+	}
+
+	public void setIduploaded(boolean iduploaded) {
+		this.iduploaded = iduploaded;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 	
 	
