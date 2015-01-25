@@ -54,7 +54,7 @@
 					</c:when>
 
 				</c:choose>
-				<sec:authorize access="hasRole('ROLE_SHIPER')">
+				<sec:authorize access="hasRole('ROLE_CS')">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">发货人 <b class="caret"></b></a>
 						<ul class="dropdown-menu">

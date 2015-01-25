@@ -51,6 +51,21 @@ public class OrderDAO {
 
 		return orders;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Shiporder> findByCS(String username) {
+		List<Shiporder> orders = new ArrayList<Shiporder>();
+		Session session=sessionFactory.getCurrentSession();
+		Transaction trans=session.beginTransaction();
+		String hql = "from Shiporder where cs = '"+username+"' and status<5";
+		org.hibernate.Query query = session.createQuery(hql);
+		orders = query.list();
+		
+		trans.commit();
+
+		return orders;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public Shiporder findById(String id) {
 		List<Shiporder> orders = new ArrayList<Shiporder>();

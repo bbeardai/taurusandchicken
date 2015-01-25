@@ -52,7 +52,7 @@
 					</c:when>
 
 				</c:choose>
-				<sec:authorize access="hasRole('ROLE_SHIPER')">
+				<sec:authorize access="hasRole('ROLE_CS')">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">发货人 <b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -87,14 +87,20 @@
 				<thead>
       <tr>
          <th colspan=2 >订单号：${order.shiporderid }</th>
+         
+         
+         
+         
+         
+         
          <th >状态：${order.status }
          
          <c:choose>
-    <c:when test="${order.status== '已上传身份证' }">
+    <c:when test="${order.status==3 }">
        <a href="<c:url value = "/checked?shiporderid=${order.shiporderid }"/>">验证
 							</a>
     </c:when>
-     <c:when test="${order.status== '已验证' }">
+     <c:when test="${order.status== 4 }">
        <a href="<c:url value = "/shiped?shiporderid=${order.shiporderid }"/>">已发货
 							</a>
     </c:when>
@@ -145,7 +151,7 @@
 					
 					
 					</c:forEach>
-					<c:if test="${order.status!= '未上传身份证' }">
+					<c:if test="${order.status>2 }">
 						<tr>
 						<th colspan=3>
 						<img src="resources/upload/${order.address.idphoto.idphotoid}ZM${order.address.idphoto.type}"

@@ -38,6 +38,7 @@ import com.taurusandchicken.web.dao.OrderitemDAO;
 import com.taurusandchicken.web.dao.UserDAO;
 import com.taurusandchicken.web.module.*;
 import com.taurusandchicken.web.utility.ExcelUtil;
+import com.taurusandchicken.web.utility.PressMark;
 
 /**
  * Handles requests for the application home page.
@@ -289,10 +290,10 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/viewallorder", method = RequestMethod.GET)
-	public String viewallorder(Locale locale, Model model)
+	public String viewallorder(Locale locale, Model model, HttpServletRequest req)
 			throws UnsupportedEncodingException {
-
-		List<Shiporder> orderlist = orderDAO.Allorder();
+		
+		List<Shiporder> orderlist = orderDAO.findByCS(req.getSession().getAttribute("username").toString());
 		model.addAttribute("orderlist", orderlist);
 
 		return "viewallorder";
@@ -310,7 +311,7 @@ public class HomeController {
 			@ModelAttribute("shiporderid") String shiporderid)
 			throws UnsupportedEncodingException {
 		Shiporder shiporder = shiporderDAO.findById(shiporderid);
-		shiporder.setStatus("已发货");
+		shiporder.setStatus(5);
 		shiporderDAO.updateOrder(shiporder);
 		return "redirect:viewallorder";
 	}
@@ -320,7 +321,7 @@ public class HomeController {
 			@ModelAttribute("shiporderid") String shiporderid)
 			throws UnsupportedEncodingException {
 		Shiporder shiporder = shiporderDAO.findById(shiporderid);
-		shiporder.setStatus("已验证");
+		shiporder.setStatus(4);
 		shiporderDAO.updateOrder(shiporder);
 		return "redirect:viewallorder";
 	}
@@ -397,7 +398,7 @@ public class HomeController {
 			model.addAttribute("check", "没有此订单，请检查订单号");
 			return "zhiyoucheck";
 		} else {
-			if (!shiporder.getStatus().equalsIgnoreCase("未上传身份证")) {
+			if (shiporder.getStatus()>2) {
 				model.addAttribute("check", "身份证已上传");
 				return "zhiyoucheck";
 			} else {
@@ -420,7 +421,7 @@ public class HomeController {
 							addressDAO.updateAddress(address);
 							idphotoDAO.deleteIdphoto(idphoto2);
 							shiporder.setIduploaded(true);
-							shiporder.setStatus("已上传身份证");
+							shiporder.setStatus(3);
 							shiporderDAO.updateOrder(shiporder);
 
 							model.addAttribute("check", "身份证已在档案中，匹配成功，无需上传，谢谢");
@@ -493,7 +494,7 @@ public class HomeController {
 						+ fileType);
 				System.out.println(fileType);
 				idphotoDAO.updateIdphoto(idphoto);
-				shiporder.setStatus("已上传身份证");
+				shiporder.setStatus(3);
 				shiporder.setIduploaded(true);
 				shiporderDAO.updateOrder(shiporder);
 
@@ -509,6 +510,11 @@ public class HomeController {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
+				PressMark.alterSizeandPress(path+"/"+idphoto.getIdphotoid() + "ZM"
+						+ fileType,request.getSession().getServletContext().getRealPath("/")+ "resources/images.pressImg.png");
+				PressMark.alterSizeandPress(path+"/"+idphoto.getIdphotoid() + "BM"
+						+ fileType,request.getSession().getServletContext().getRealPath("/")+ "resources/images.pressImg.png");
 
 				model.addAttribute("check", "上传成功，谢谢");
 				return "zhiyoucheck";
@@ -561,7 +567,7 @@ public class HomeController {
 							User user  = userDAO.findByUserName("public");
 							order.setCs(userDAO.findByUserName(request.getSession().getAttribute("username").toString()));
 							order.setUser(user);
-							order.setStatus("由Excel生成，请核对");
+							order.setStatus(1);
 							order.setIduploaded(false);
 							String tracking = "ES"+order.getShiporderid().substring(2,10)+"TC";
 							order.setTracking(tracking);
@@ -599,4 +605,5 @@ public class HomeController {
 		}
 	}
 
+	
 }

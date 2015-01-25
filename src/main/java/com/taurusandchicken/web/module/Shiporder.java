@@ -22,7 +22,7 @@ public class Shiporder {
 	private String shiporderid;
 	
 	@Column(name = "status")
-	private String status;
+	private int status;
 	
 	@Column(name = "iduploaded")
 	private boolean iduploaded;
@@ -63,12 +63,12 @@ public class Shiporder {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Shiporder(String shiporderid, User user, Address address) {
+	public Shiporder(String orderid, User user, Address address){
 		super();
-		this.shiporderid = shiporderid;
-		this.status = "New";
+		this.shiporderid = orderid;
 		this.user = user;
 		this.address = address;
+		
 	}
 	
 	
@@ -80,7 +80,7 @@ public class Shiporder {
 			String taobaoid, Address address,String shopname,User user) {
 		super();
 		this.shiporderid = shiporderid;
-		this.status = "未上传身份证";
+		this.status = 2;
 		this.paydate = paydate;
 		this.taobaoid = taobaoid;
 		this.address = address;
@@ -112,11 +112,11 @@ public class Shiporder {
 		this.address = address;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
