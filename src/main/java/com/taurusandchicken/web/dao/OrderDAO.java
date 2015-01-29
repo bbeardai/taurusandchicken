@@ -82,12 +82,27 @@ public class OrderDAO {
 		return null;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	public List<Shiporder> Allorder() {
 		List<Shiporder> orders = new ArrayList<Shiporder>();
 		Session session=sessionFactory.getCurrentSession();
 		Transaction trans=session.beginTransaction();
 		String hql = "from Shiporder";
+		org.hibernate.Query query = session.createQuery(hql);
+		orders = query.list();
+		
+		trans.commit();
+
+		return orders;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Shiporder> getShipingOrder() {
+		List<Shiporder> orders = new ArrayList<Shiporder>();
+		Session session=sessionFactory.getCurrentSession();
+		Transaction trans=session.beginTransaction();
+		String hql = "from Shiporder where status >3";
 		org.hibernate.Query query = session.createQuery(hql);
 		orders = query.list();
 		

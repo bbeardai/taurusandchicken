@@ -9,6 +9,8 @@
 <html>
 
 <head>
+   
+
 <meta name="viewpoint"
 	content="width = device-width, initial-scale = 1.0">
 
@@ -20,7 +22,7 @@
 	href="resources/css/annotorious.css" />
 <title>Taurus and Chicken</title>
 </head>
-<body>
+<body onload="Init();">
 	<div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<a href="/" class="navbar-brand"> Taurus and Chicken</a>
@@ -86,72 +88,114 @@
 		</div>
 	</div>
 </div>
-
-	
-		<div class="container">
-			<div class="row">
+	<div class="container">
+		<div class="row">
 			
+
 			<div class="col-md-8">
-			<table class="table table-striped">
-				<tbody>
-				<thead>
-      <tr>
-         <th colspan=2 >订单号：${order.shiporderid }</th>
-         <th >状态：${order.status }</th>
-         
-      </tr>
-   </thead>
-					<tr>
-						<th colspan=3>详细地址：${order.address.line1 }</th>
-					</tr>
-					
-					<tr>
-						<td>省：${order.address.province }</td>
-						<td>城市：${order.address.city }</td>
-						<td>邮编：${order.address.zip }</td>
-					</tr>
-					<tr>
-						<td>收件人：${order.address.idphoto.name }</td>
-						<td>电话：${order.address.phone }</td>
-						<td>店铺名称：${order.shopname }</td>
-					</tr>
-					<tr>
-						<td>淘宝ID：${order.taobaoid }</td>
-						<td>付款日期：${order.paydate }</td>
-						<td></td>
-					</tr>
-					<tr>
-						<th colspan=3>邮寄地址备注：${order.address.memo }</th>
-					</tr>
-					<tr>
-						<th colspan=3>订单明细</th>
-					</tr>
-					<tr>
-						<td>商品ID</td>
-						<td>数量</td>
-						<td>尺寸</td>
-					</tr>
-					<c:forEach items="${order.orderitems }" var="item">
-					<tr>
-						<td>${item.productid }</td>
-						<td>${item.quantity }</td>
-						<td>${item.size }</td>
-					</tr>
-					
-					
-					
-					</c:forEach>
-					
-					
-					
-				</tbody>
-				</table>
-				
-				
+			<h3>${message }</h3>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">编辑直邮订单</h3>
+					</div>
+					<div class="panel-body">
+						<form action=" <c:url value='/savezhiyouorder' />" method="get" class="form-horizontal">
+							<div class="form-group">
+								<label for="shiporderid" class="col-sm-2 control-label">订单号：</label> 
+								<input  type="hidden" value="${order.shiporderid }" name = "shiporderid" />
+								
+								<div class="col-sm-10">${order.shiporderid }</div>
+							</div>
+							<div class="form-group">
+								<label for="taobaoid" class="col-sm-2 control-label">淘宝用户名：</label> 
+								<div class="col-sm-10">
+								<input id="taobaoid" value = "${order.taobaoid }" name="taobaoid" type="text" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="paydate" class="col-sm-2 control-label">付款日期：</label> 
+								<div class="col-sm-10">
+								<input id="paydate" value = "${order.paydate }" name="paydate" type="text" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="shopname" class="col-sm-2 control-label">店铺名称：</label> 
+								<div class="col-sm-10">
+								<input id="shopname" value = "${order.shopname }" name="shopname" type="text" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="province" class="col-sm-2 control-label">省：</label> 
+								<div class="col-sm-4">
+								<input id="province" value = "${order.address.province }"  name="province" type="text" class="form-control" />
+								</div>
+								<label for="city" class="col-sm-2 control-label">城市：</label> 
+								<div class="col-sm-4">
+								<input id="city" value = "${order.address.city }" name="city" type="text" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="line1" class="col-sm-2 control-label">详细地址：</label> 
+								<div class="col-sm-6">
+								<input id="line1"  value = "${order.address.line1 }" name="line1" type="text" class="form-control" />
+								</div>
+								<label for="zip" class="col-sm-2 control-label">邮编：</label> 
+								<div class="col-sm-2">
+								<input id="zip" value = "${order.address.zip }" name="zip" type="text" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">收件人姓名：</label> 
+								<div class="col-sm-3">
+								<input id="name"  value = "${order.address.idphoto.name }" name="name" type="text" class="form-control" />
+								</div>
+								<label for="phone" class="col-sm-2 control-label">电话：</label> 
+								<div class="col-sm-5">
+								<input id="phone"  value = "${order.address.phone }" name="phone" type="tel" class="form-control" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="memo" class="col-sm-2 control-label">备注</label> 
+								<div class="col-sm-10">
+								<input id="memo"  value = "${order.address.memo }" name="memo" type="text" class="form-control" />
+								</div>
+							</div>
+							
+						<table class="table table-striped">
+						<thead>	
+							<tr>
+							<td>商品ID</td>
+							<td>数量</td>
+							<td>尺寸</td>
+							<td>操作</td>
+						</tr>
+						</thead>
+						<tbody>
+						<c:forEach items="${order.orderitems }" var="item">
+							<tr>
+								<td>${item.productid }</td>
+								<td>${item.quantity }</td>
+								<td>${item.size }</td>
+								
+								<td><a href="<c:url value = "/deleteorderitem?orderitemid=${item.orderitemid }&shiporderid=${order.shiporderid }"/>">删除</a></td>
+							</tr>
+
+
+
+						</c:forEach>
+							</tbody>
+							</table>
+							
+							
+						<input type="submit" value="保存" class="btn btn-danger" />
+						</form>
+					</div>
 				</div>
-				<div class="col-md-1"></div>
-				<div class="col-md-3">
-				<form action=" <c:url value='/additem' />" method="get" >
+
+			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				<form action=" <c:url value='/additem2' />" method="get" >
 							<p>
 								<label for="productid">商品ID</label> <input id="productid"
 									name="productid" type="text" class="form-control" />
@@ -181,17 +225,15 @@
 							<input  type="hidden" value="${order.shiporderid }" name = "shiporderid" />
 							<input type="submit" value="添加" class="btn btn-danger" />
 						</form>
-						<a href="<c:url value = "/viewallorder"/>"><h4>添加完成</h4></a>
 				</div>
-			</div>
 		</div>
-
-
+	</div>
 	
+
 
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script src="resources/js/bootstrap.js"></script>
 	<script type="text/javascript" src="resources/js/annotorious.min.js"></script>
-
+	<script type="text/javascript" src="resources/js/address.js"></script>
 </body>
 </html>

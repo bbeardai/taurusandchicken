@@ -26,8 +26,16 @@ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 		<security:intercept-url pattern="/checked" access="hasRole('ROLE_CS')" />
 		<security:intercept-url pattern="/addorderitem" access="hasRole('ROLE_CS')" />
 		<security:intercept-url pattern="/additem" access="hasRole('ROLE_CS')" />
+		<security:intercept-url pattern="/additem2" access="hasRole('ROLE_CS')" />
 		<security:intercept-url pattern="/uploadexcel" access="hasRole('ROLE_CS')" />
-
+		<security:intercept-url pattern="/denied" access="hasRole('ROLE_CS')" />
+		<security:intercept-url pattern="/editzhiyouorder" access="hasRole('ROLE_CS')" />
+		<security:intercept-url pattern="/savezhiyouorder" access="hasRole('ROLE_CS')" />
+		<security:intercept-url pattern="/deleteorderitem" access="hasRole('ROLE_CS')" />
+		<security:intercept-url pattern="/uploadidremander" access="hasRole('ROLE_CS')" />
+		<security:intercept-url pattern="/viewallorderadmin" access="hasRole('ROLE_CSADMIN')" />
+		<security:intercept-url pattern="/viewshipingorder" access="hasRole('ROLE_SHIPER')" />
+		
 		<security:intercept-url pattern="/loginfailure" access="permitAll" />
 		<security:intercept-url pattern="/reg" access="permitAll" />
 		<security:intercept-url pattern="/loginsignin" access="permitAll" />

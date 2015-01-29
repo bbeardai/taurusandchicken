@@ -3,6 +3,7 @@ package com.taurusandchicken.web.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.httpclient.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,7 @@ import com.taurusandchicken.web.dao.UserDAO;
 import com.taurusandchicken.web.module.*;
 import com.taurusandchicken.web.utility.ExcelUtil;
 import com.taurusandchicken.web.utility.PressMark;
+import com.taurusandchicken.web.utility.SMS;
 
 /**
  * Handles requests for the application home page.
@@ -298,6 +301,27 @@ public class HomeController {
 
 		return "viewallorder";
 	}
+	
+	@RequestMapping(value = "/viewshipingorder", method = RequestMethod.GET)
+	public String viewshipingorder(Locale locale, Model model, HttpServletRequest req)
+			throws UnsupportedEncodingException {
+		
+		List<Shiporder> orderlist = orderDAO.getShipingOrder();
+		model.addAttribute("orderlist", orderlist);
+
+		return "viewallorder";
+	}
+	
+	@RequestMapping(value = "/viewallorderadmin", method = RequestMethod.GET)
+	public String viewallorderadmin(Locale locale, Model model, HttpServletRequest req)
+			throws UnsupportedEncodingException {
+		
+		List<Shiporder> orderlist = orderDAO.Allorder();
+		model.addAttribute("orderlist", orderlist);
+
+		return "viewallorder";
+	}
+	
 
 	@RequestMapping(value = "/newzhiyouorder", method = RequestMethod.GET)
 	public String newzhiyouorder(Locale locale, Model model)
@@ -305,13 +329,36 @@ public class HomeController {
 
 		return "newzhiyouorder";
 	}
+	
+	@RequestMapping(value = "/editzhiyouorder", method = RequestMethod.GET)
+	public String editzhiyouorder(Locale locale, Model model,
+			@ModelAttribute("shiporderid") String shiporderid)
+			throws UnsupportedEncodingException {
+			Shiporder shiporder = shiporderDAO.findById(shiporderid);
+			model.addAttribute("order", shiporder);
+		return "editzhiyouorder";
+	}
+	
+	@RequestMapping(value = "/uploadidremander", method = RequestMethod.GET)
+	public String uploadidremander(Locale locale, Model model,
+			@ModelAttribute("shiporderid") String shiporderid)
+			throws HttpException, IOException {
+			Shiporder shiporder = shiporderDAO.findById(shiporderid);
+			String phone = shiporder.getAddress().getPhone();
+			String content = "订单已生成，订单号为："+shiporderid+"。请到easttm.com.cn上传身份证";
+			SMS.sendSMS(phone, content);
+			shiporder.setIduploaded(true);
+			shiporderDAO.updateOrder(shiporder);
+		return "redirect:viewallorder";
+	}
 
 	@RequestMapping(value = "/shiped", method = RequestMethod.GET)
 	public String shiped(Locale locale, Model model,
 			@ModelAttribute("shiporderid") String shiporderid)
-			throws UnsupportedEncodingException {
+			throws HttpException, IOException {
 		Shiporder shiporder = shiporderDAO.findById(shiporderid);
 		shiporder.setStatus(5);
+		SMS.sendSMS(shiporder.getAddress().getPhone(), "您的订单"+shiporderid+"已发货，物流单号为："+shiporder.getTracking());
 		shiporderDAO.updateOrder(shiporder);
 		return "redirect:viewallorder";
 	}
@@ -322,6 +369,19 @@ public class HomeController {
 			throws UnsupportedEncodingException {
 		Shiporder shiporder = shiporderDAO.findById(shiporderid);
 		shiporder.setStatus(4);
+		shiporderDAO.updateOrder(shiporder);
+		return "redirect:viewallorder";
+	}
+	
+	@RequestMapping(value = "/denied", method = RequestMethod.GET)
+	public String denialed(Locale locale, Model model,
+			@ModelAttribute("shiporderid") String shiporderid)
+			throws UnsupportedEncodingException {
+		Shiporder shiporder = shiporderDAO.findById(shiporderid);
+		shiporder.setStatus(2);
+		Idphoto idphoto = shiporder.getAddress().getIdphoto();
+		idphoto.setIdnumber(null);
+		idphotoDAO.updateIdphoto(idphoto);
 		shiporderDAO.updateOrder(shiporder);
 		return "redirect:viewallorder";
 	}
@@ -362,12 +422,55 @@ public class HomeController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/savezhiyouorder", method = RequestMethod.GET)
+	public String savezhiyouorder(Locale locale, Model model,
+			@ModelAttribute("line1") String line1,
+			@ModelAttribute("province") String province,
+			@ModelAttribute("city") String city,
+			@ModelAttribute("zip") String zip,
+			@ModelAttribute("phone") String phone,
+			@ModelAttribute("memo") String memo,
+			@ModelAttribute("idphotoid") String idphotoid, String taobaoid,
+			String name, String shiporderid, String paydate, String shopname,
+			HttpServletRequest request)
+			throws UnsupportedEncodingException {
+		Shiporder shiporder = shiporderDAO.findById(shiporderid);
+		shiporder.setPaydate(paydate);
+		shiporder.setTaobaoid(taobaoid);
+		shiporder.setShopname(shopname);
+		Address address = shiporder.getAddress();
+		address.setCity(city);
+		address.setLine1(line1);
+		address.setMemo(memo);
+		address.setProvince(province);
+		address.setPhone(phone);
+		Idphoto idphoto = address.getIdphoto();
+		idphoto.setName(name);
+		shiporder.setStatus(2);
+		idphotoDAO.updateIdphoto(idphoto);
+		addressDAO.updateAddress(address);
+		shiporderDAO.updateOrder(shiporder);
+		return "redirect:viewallorder";
+
+	}
 
 	@RequestMapping(value = "/addorderitem", method = RequestMethod.GET)
 	public String addorderitem(Locale locale, Model model)
 			throws UnsupportedEncodingException {
 		return "addorderitem";
 	}
+	
+	@RequestMapping(value = "/deleteorderitem", method = RequestMethod.GET)
+	public String deleteorderitem(Locale locale, Model model,
+			String orderitemid,String shiporderid)
+			throws UnsupportedEncodingException {
+		orderitemDAO.deleteOrderitem(orderitemDAO.findById(orderitemid));
+		Shiporder shiporder1 = shiporderDAO.findById(shiporderid);
+		model.addAttribute("order", shiporder1);
+		return "editzhiyouorder";
+	}
+	
 
 	@RequestMapping(value = "/additem", method = RequestMethod.GET)
 	public String additem(Locale locale, Model model, String productid,
@@ -381,6 +484,20 @@ public class HomeController {
 		Shiporder shiporder1 = shiporderDAO.findById(shiporderid);
 		model.addAttribute("order", shiporder1);
 		return "addorderitem";
+	}
+	
+	@RequestMapping(value = "/additem2", method = RequestMethod.GET)
+	public String additem2(Locale locale, Model model, String productid,
+			int quantity, String size, String shiporderid)
+			throws UnsupportedEncodingException {
+
+		Shiporder shiporder = shiporderDAO.findById(shiporderid);
+		Orderitem orderitem = new Orderitem(productid, quantity, size,
+				shiporder);
+		orderitemDAO.addOrderitem(orderitem);
+		Shiporder shiporder1 = shiporderDAO.findById(shiporderid);
+		model.addAttribute("order", shiporder1);
+		return "editzhiyouorder";
 	}
 
 	@RequestMapping(value = "/zhiyoucheck", method = RequestMethod.GET)
@@ -420,7 +537,6 @@ public class HomeController {
 							address.setIdphoto(idphoto);
 							addressDAO.updateAddress(address);
 							idphotoDAO.deleteIdphoto(idphoto2);
-							shiporder.setIduploaded(true);
 							shiporder.setStatus(3);
 							shiporderDAO.updateOrder(shiporder);
 
@@ -468,7 +584,6 @@ public class HomeController {
 			HttpServletRequest request, Model model)
 			throws FileNotFoundException, Exception {
 		if (!filezm.isEmpty() && !filebm.isEmpty()) {
-			boolean flag = false;
 
 			String fileNamezm = filezm.getOriginalFilename();
 			String fileTypezm = fileNamezm.substring(fileNamezm.lastIndexOf("."));
@@ -479,6 +594,7 @@ public class HomeController {
 				String fileType = fileTypebm;
 				System.out.println(fileType);
 				String path = request.getSession().getServletContext().getRealPath("/")+ "resources/upload";
+				//String path = "/tcdata/idphoto";
 				System.out.println(path);
 
 				Shiporder shiporder = shiporderDAO.findById(shiporderid);
@@ -495,7 +611,6 @@ public class HomeController {
 				System.out.println(fileType);
 				idphotoDAO.updateIdphoto(idphoto);
 				shiporder.setStatus(3);
-				shiporder.setIduploaded(true);
 				shiporderDAO.updateOrder(shiporder);
 
 				try {
