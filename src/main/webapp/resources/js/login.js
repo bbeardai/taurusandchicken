@@ -76,3 +76,19 @@ $(document).ready(function() {
         },
 	});
 });
+$(document).on("focusout","#sign_up_username",function(){
+	$.ajax({
+		url:"usernamevalidation",
+		type:"POST",
+		dataType:'json',
+		data:{
+			"username":$("#sign_up_username").val(),
+		},
+	})
+	.always(function(data){
+		if(data.responseText=="invalid"){
+			$("#sign_up_username").parent().removeClass('has-success').addClass('has-error');
+			$("#sign_up_username").tooltip("destroy").data("title", "Occupied User Name").tooltip(); 
+		}
+	});
+});
