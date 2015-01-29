@@ -16,8 +16,8 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 public class PressMark {
 	 public static void alterSizeandPress(String srcImgFile, String pressImgFile){  
 	    	//pressImg url
-	    	//String pressImg="/Users/bbeardai/git/taurusandchicken/src/main/webapp/resources/images/pressImg.png";
-		 	String pressImg="/tcdata/tomcat/webapps/ROOT/resources/images/pressImg.png";
+	    	String pressImg="/Users/bbeardai/git/taurusandchicken/src/main/webapp/resources/images/pressImg.png";
+		 	//String pressImg="/tcdata/tomcat/webapps/ROOT/resources/images/pressImg.png";
 	    	File file = new File(pressImg);
 	    	if(file.exists())  
 		    	System.out.println("PressImgfileExists");  
