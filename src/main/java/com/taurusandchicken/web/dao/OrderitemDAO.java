@@ -31,5 +31,31 @@ public class OrderitemDAO {
 		trans.commit();
 	}
 	
+	public void deleteOrderitem(Orderitem orderitem) {
+
+		Session session = sessionFactory.getCurrentSession();
+		Transaction trans = session.beginTransaction();
+		session.delete(orderitem);;
+		
+		trans.commit();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Orderitem findById(String id) {
+		List<Orderitem> orders = new ArrayList<Orderitem>();
+		Session session=sessionFactory.getCurrentSession();
+		Transaction trans=session.beginTransaction();
+		String hql = "from Orderitem where orderitemid = '"+id+"'";
+		org.hibernate.Query query = session.createQuery(hql);
+		orders = query.list();
+		
+		trans.commit();
+		if(orders.size()>0){
+			return orders.get(0);
+		}
+		return null;
+	}
+	
+	
 	
 }

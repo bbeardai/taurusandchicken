@@ -56,11 +56,22 @@
 				</c:choose>
 				<sec:authorize access="hasRole('ROLE_CS')">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">发货人 <b class="caret"></b></a>
+						data-toggle="dropdown">客服 <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="<c:url value = "/viewallorder"/>">订单管理</a></li>
-							<li><a href="<c:url value = "/newzhiyouorder"/>">添加直邮订单</a></li>	
-												</ul></li>
+							<li><a href="<c:url value = "/newzhiyouorder"/>">添加直邮订单</a></li>
+<sec:authorize access="hasRole('ROLE_CSADMIN')">
+							<li><a href="<c:url value = "/viewallorderadmin"/>">查看所有订单</a></li>
+</sec:authorize>
+						</ul></li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_SHIPER')">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">发货人 <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="<c:url value = "/viewshipingorder"/>">查看发货订单</a></li>
+							
+						</ul></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
