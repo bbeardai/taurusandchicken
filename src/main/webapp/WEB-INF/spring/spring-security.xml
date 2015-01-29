@@ -43,7 +43,7 @@ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 		<security:intercept-url pattern="/zhiyoucheck" access="permitAll" />
 		<security:intercept-url pattern="/zhiyouidphoto" access="permitAll" />
 		<security:intercept-url pattern="/zhiyouuploadid" access="permitAll" />
-		
+		<security:intercept-url pattern="/usernamevalidation" access="permitAll" />
 		
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/home" access="permitAll" />
